@@ -69,8 +69,10 @@ function App() {
   const [tab, setTab] = useState<Tab>("learn");
   const [subject, setSubject] = useState<Subject>("Math");
   const [level, setLevel] = useState<Level>("Foundation");
-  const [seen, setSeen] = useState<Set<string>>(new Set());
-  const [question, setQuestion] = useState<Question>(() => questions[0]);
+  const [seen, setSeen] = useState<Set<string>>(
+  () => new Set(loadProgress().records.map(r => r.questionId).filter((id): id is string => Boolean(id)))
+);;
+  const [question, setQuestion] = useState<Question | null>(() => questions[0] ?? null);
   const [choice, setChoice] = useState("");
   const [typed, setTyped] = useState("");
   const [usedHint, setUsedHint] = useState(false);
@@ -123,7 +125,7 @@ function App() {
   }
 
   function submitAnswer() {
-    if (feedback) return;
+    if (!question || feedback) return;
     const response = question.mode === "typed" ? typed.trim().toLowerCase() : choice;
     if (!response) return;
     const correct = response.replace(/\s+/g, " ") === question.answer.toLowerCase().replace(/\s+/g, " ");
@@ -171,7 +173,7 @@ function App() {
     setSeen(new Set());
     setSessionCount(0);
     setSessionCorrect(0);
-    setQuestion(questions[0]);
+    setQuestion(questions[0] ?? null);
     setSubject("Math");
     setLevel("Foundation");
     setChoice("");
@@ -223,7 +225,21 @@ function App() {
                 </button>
               </div>
               <div className="level-row"><label htmlFor="level">Practice level</label><select id="level" value={level} onChange={e => changeLevel(e.target.value as Level)}><option value="Foundation">Grade 3 foundations</option><option value="Challenge">Stretch challenge</option></select></div>
-              <div className="question-card">
+             
+{!question && (
+  <div className="question-card">
+    <div className="empty-state">
+      <CheckCircle2 size={26} />
+      <strong>You've completed this set!</strong>
+      <p>
+        You've answered every available question at this level.
+        Choose another subject or practice level to keep learning.
+      </p>
+    </div>
+  </div>
+)}
+ {question && (
+            <div className="question-card">
                 <div className="question-meta"><span className={`tag ${subject === "Math" ? "blue" : "gold"}`}>{subject === "Math" ? "🔢 Math" : "🔤 Spelling"}</span><span>Target grade {question.grade}</span></div>
                 <div className="skill-label">{question.skill}</div>
                 <h3>{question.prompt}</h3>
@@ -259,7 +275,7 @@ function App() {
               </div>
               <p className="fine-print">Practice is saved in this browser on this device. This starter version does not yet sync progress between devices or provide parent authentication.</p>
             </section>
-
+)}
             <aside className="side-column">
               <section className="panel journey-panel">
                 <div className="side-icon purple"><Trophy size={22} /></div><p className="eyebrow">YOUR JOURNEY</p><h3>Little steps, big growth.</h3>
