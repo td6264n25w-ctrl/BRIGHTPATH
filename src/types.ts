@@ -1,7 +1,10 @@
+
 export type Subject = "Math" | "Spelling";
 export type Level = "Foundation" | "Challenge";
+
 export type AnswerRecord = {
   id: string;
+  questionId?: string;
   subject: Subject;
   skill: string;
   grade: number;
@@ -9,6 +12,7 @@ export type AnswerRecord = {
   usedHint: boolean;
   answeredAt: string;
 };
+
 export type Question = {
   id: string;
   subject: Subject;
