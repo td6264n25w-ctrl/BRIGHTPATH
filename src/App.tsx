@@ -97,9 +97,9 @@ function App() {
     if (!response) return;
     const correct = response.replace(/\s+/g, " ") === question.answer.toLowerCase().replace(/\s+/g, " ");
     const record: AnswerRecord = {
-      id: `${question.id}-${Date.now()}`,
-      subject: question.subject,
-      skill: question.skill,
+  id: `${question.id}-${Date.now()}`,
+  questionId: question.id,
+  subject: question.subject,
       grade: question.grade,
       correct,
       usedHint,
