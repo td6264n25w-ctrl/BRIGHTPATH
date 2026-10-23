@@ -347,21 +347,7 @@ export default function App() {
     });
   }
 
-  function resetProgress() {
-    const fresh = loadProgress();
-    setProgress({
-      ...fresh,
-      points: 0,
-      streak: 0,
-      records: [],
-    });
-    setRoundIds([]);
-    setRoundIndex(0);
-    setRoundDone(false);
-    setFeedback(null);
-    setAnswer("");
-    setSelectedLetters([]);
-  }
+  
 
   const shell: CSSProperties = { maxWidth: 760, margin: "0 auto", padding: "18px 16px 40px" };
   const card: CSSProperties = { background: palette.white, border: `1px solid ${palette.border}`, borderRadius: 22, padding: 18, boxShadow: "0 6px 24px rgba(32,45,80,.05)" };
