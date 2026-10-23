@@ -11,10 +11,41 @@ import type { AnswerRecord, Level, Question, Subject } from "./types";
 
 type Tab = "learn" | "parent" | "curriculum";
 
-function chooseNext(subject: Subject, level: Level, records: AnswerRecord[], seen: Set<string>): Question {
-  const pool = questions.filter(q => q.subject === subject && q.level === level);
+
+function chooseNext(
+  subject: Subject,
+  level: Level,
+  records: AnswerRecord[],
+  seen: Set<string>
+): Question | null {
+  const pool = questions.filter(
+    q => q.subject === subject && q.level === level
+  );
   const unseen = pool.filter(q => !seen.has(q.id));
-  const candidates = unseen.length ? unseen : pool;
+
+  if (unseen.length === 0) return null;
+
+  const skillStats = new Map<string, { correct: number; total: number }>();
+
+  for (const r of records.filter(r => r.subject === subject)) {
+    const prev = skillStats.get(r.skill) ?? { correct: 0, total: 0 };
+    prev.total++;
+    if (r.correct && !r.usedHint) prev.correct++;
+    skillStats.set(r.skill, prev);
+  }
+
+  unseen.sort((a, b) => {
+    const sa = skillStats.get(a.skill) ?? { correct: 0, total: 0 };
+    const sb = skillStats.get(b.skill) ?? { correct: 0, total: 0 };
+    const pa = sa.total === 0 ? -1 : sa.correct / sa.total;
+    const pb = sb.total === 0 ? -1 : sb.correct / sb.total;
+
+    return pa - pb || sa.total - sb.total;
+  });
+
+  return unseen[0];
+}
+
   const skillStats = new Map<string, { correct: number; total: number }>();
   for (const r of records.filter(r => r.subject === subject)) {
     const prev = skillStats.get(r.skill) ?? { correct: 0, total: 0 };
