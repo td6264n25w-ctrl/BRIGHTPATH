@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { loadProgress, saveProgress } from "./storage";
 import type { ProgressState } from "./storage";
 import type { AnswerRecord, Subject } from "./types";
-
+import CurriculumBrowser from "./CurriculumBrowser";
 type Mode = "math" | "spelling" | "mixed";
 
 type Challenge = {
