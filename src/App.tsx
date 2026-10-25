@@ -538,27 +538,34 @@ export default function App() {
           </section>
         )}
 
-        {tab === "curriculum" && (
-          <section style={card}>
-            <h2 style={{ marginTop: 0 }}>Workshop skills</h2>
-            <p style={muted}>A growing collection of Grade 3 practice challenges.</p>
-            {[
-              ["Addition and subtraction", "Use number facts and solve everyday problems.", "Math"],
-              ["Multiplication and division", "Explore equal groups and sharing.", "Math"],
-              ["Number patterns", "Spot rules and predict what comes next.", "Math"],
-              ["Word spelling", "Build and check words one letter at a time.", "Spelling"],
-            ].map(([title, description, subject]) => (
-              <div key={title} style={{ display: "flex", alignItems: "start", gap: 12, padding: "14px 0", borderBottom: `1px solid ${palette.border}` }}>
-                <div style={{ width: 42, height: 42, borderRadius: 13, display: "grid", placeItems: "center", background: subject === "Math" ? "#E3EEFF" : "#FCE7F3", fontSize: 20 }}>{subject === "Math" ? "🔢" : "🔤"}</div>
-                <div style={{ flex: 1 }}>
-                  <strong>{title}</strong>
-                  <p style={{ ...muted, margin: "5px 0 0", lineHeight: 1.5 }}>{description}</p>
-                </div>
-              </div>
-            ))}
-            <button style={{ ...primary, width: "100%", marginTop: 18 }} onClick={() => startRound("mixed")}>Play a mixed mission</button>
-          </section>
-        )}
+        
+{tab === "curriculum" && (
+  <section style={card}>
+    <CurriculumBrowser />
+    <div
+      style={{
+        marginTop: 18,
+        padding: 14,
+        borderRadius: 14,
+        background: "#F6F8FC",
+        color: palette.muted,
+        fontSize: 13,
+        lineHeight: 1.5,
+      }}
+    >
+      Explore the skills in each unit. Interactive lessons,
+      independent assessments, and skill progress will be added
+      as the learning system develops.
+    </div>
+    <button
+      style={{ ...primary, width: "100%", marginTop: 16 }}
+      onClick={() => startRound("mixed")}
+    >
+      Play a mixed mission
+    </button>
+  </section>
+)}
+
 
         <footer style={{ textAlign: "center", marginTop: 20, ...muted }}>
           Small steps. Big discoveries. ✨
