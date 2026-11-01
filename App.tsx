@@ -4,7 +4,7 @@ import {
   GraduationCap, Lightbulb, RotateCcw, Sparkles, Target, Trophy, UserRound,
   ChartNoAxesColumnIncreasing, LockKeyhole
 } from "lucide-react";
-import { questions } from "./questions";
+import { playableQuestions as questions } from "./questionbank";
 import { curriculum, weekOne } from "./curriculum";
 import { loadProgress, saveProgress, type ProgressState } from "./storage";
 import type { AnswerRecord, Level, Question, Subject } from "./types";
