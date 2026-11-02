@@ -441,6 +441,35 @@ export default function App() {
                     Pick a challenge type. Every correct answer earns 10 points.
                   </p>
 
+<div style={{ marginBottom: 16 }}>
+  <strong style={{ display: "block", marginBottom: 9 }}>
+    Choose your grade
+  </strong>
+  <div style={{ display: "flex", gap: 8 }}>
+    {([3, 4] as const).map((g) => (
+      <button
+        key={g}
+        onClick={() => {
+          setGrade(g);
+          setRoundIds([]);
+          setRoundIndex(0);
+          setFeedback(null);
+          setRoundDone(false);
+        }}
+        style={{
+          ...buttonBase,
+          flex: 1,
+          background: grade === g ? palette.purple : "#F6F8FC",
+          color: grade === g ? "white" : palette.ink,
+          border: `1px solid ${palette.border}`,
+        }}
+      >
+        Grade {g} {grade === g ? "✓" : ""}
+      </button>
+    ))}
+  </div>
+</div>
+
                   <div
                     style={{
                       display: "grid",
